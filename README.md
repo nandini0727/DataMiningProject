@@ -49,15 +49,20 @@ https://medium.com/@schogini/two-docker-container-communication-using-python-and
 How to Use this Project:
 Prerequisites:
 1.	Install Docker(https://docs.docker.com/docker-for-mac/install/) and make it up and running.
-2.	Install Redis(https://redis.io/topics/quickstart) and run.
 
 Running the Project:
 1. Clone the project
 cd to a folder and do:
 git clone https://github.com/nandini0727/DataMiningProject.git
 cd DataMiningProject
-2. Run the DockerFile:
-docker build -t <Image Name>:<Tag>
-3. Push the Docker Image.
-
-
+2. Create Docker Networking
+docker network create mynetwork
+3. Launch the Redis Server in the created 'mynetwork'
+docker run -d --rm --name redis-server --network mynetwork redis:alpine
+4. Run the caption generator DockerFile:
+docker run -it --rm --name caption-generator --network mynetwork -p 5000:5000 codait/max-image-caption-generator
+5. Run the DockerFile from your current folder to build our webapp docker container
+docker build -t <Git hub repository>:<Tag> .
+6. Push the Docker Image: docker image push <Git hub repository>:<Tag>
+7. Run the image: docker run -d --network mynetwork -p 80:80 <Git hub repository>:<Tag>
+8. By now, we have our webapp ready at localhost:80 which has access to Redis and image-captioning endpoint.
