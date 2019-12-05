@@ -1,15 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <script src="https://kit.fontawesome.com/ce19237d22.js" crossorigin="anonymous"></script>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/ce19237d22.js" crossorigin="anonymous"></script>
 
   <style>
-    
-
-    @import url(https://fonts.googleapis.com/css?family=Open+Sans);
-    
-body{
-  background: url('https://www.jccdenver.org/wp-content/uploads/2018/07/iStock-803829236-768x512.jpg');
-  font-family: 'Open Sans', sans-serif;
-}
 
 .search {
   width: 100%;
@@ -18,7 +18,7 @@ body{
 
 .searchTerm {
   float: left;
-  width: 100%;
+  width: 50%;
   border: 3px solid #00B4CC;
   padding: 5px;
   height: 35px;
@@ -34,7 +34,6 @@ body{
 
 .searchButton {
   position: absolute;  
-  right: -50px;
   width: 40px;
   height: 36px;
   border: 1px solid #00B4CC;
@@ -45,27 +44,98 @@ body{
   cursor: pointer;
   font-size: 20px;
 }
+    
 
-/*Resize the wrap to see the search bar change!*/
-.wrap{
-  width: 30%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>
+      @import url(https://fonts.googleapis.com/css?family=Open+Sans);
+      
+  body{
+    background: url('https://www.jccdenver.org/wp-content/uploads/2018/07/iStock-803829236-768x512.jpg');
+    font-family: 'Open Sans', sans-serif;
+  }
+  </style>
+ 
 </head>
+<body>
 
 
-<div class="wrap">
-    <div class="search">
-      <form method="POST" id="form">
-          <input type="text" class="searchTerm" placeholder="Enter some text!!!!!!!" name="text" id="user_input">
-          <button type="submit" class="searchButton" id="sub">
-            <i class="fa fa-search"></i>
-         </button>
+    <nav class='navbar navbar-default'>
+        <ul class='nav navbar-nav'>
+           <li class='active nav-item'><a href='#search'>Search</a></li>
+           <li class="nav-item"><a href='#classifier'>Classifier</a></li>
+           <li class="nav-item"><a href='#imagesearch'>Image Search By Text</a></li>
+           <li class="nav-item"><a href='#imagesearchcap'>Search By Image</a></li>
+        </ul>
+     </nav>
+
+     <div id="search" class="divs" style="display: block">
+        <form method="POST" id="form">
+            <input type="text" class="searchTerm" placeholder="Enter some text to search!!!!!!!" name="text" id="user_input">
+            <button type="submit" class="searchButton" id="sub">
+              <i class="fa fa-search"></i>
+           </button>
+        </form>
+     </div>
+
+     <div id="classifier" class="divs" style="display: none">
+        <form method="POST" id="form1">
+            <input type="text" class="searchTerm" placeholder="Enter some text to classify!!!!!!!" name="text1" id="class_input">
+            <button type="submit" class="searchButton" id="sub1">
+              <i class="fa fa-search"></i>
+           </button>
+        </form>
+     </div>
+
+     <div id="imagesearch" class="divs" style="display: none">
+        <form method="POST" id="form2">
+            <input type="text" class="searchTerm" placeholder="Enter some text to search image!!!!!!!" name="text2" id="image_input">
+            <button type="submit" class="searchButton" id="sub2">
+              <i class="fa fa-search"></i>
+           </button>
+
+          
+        </form>
+     </div>
+
+    <div id="imagesearchcap" class="divs" style="display: none">
+    <form method="POST" id="form2" enctype="multipart/form-data">
+     <div class="row" >
+        <div class="col-md-4">
+            <div class="form-group col-md-4" style="margin-left:15%">
+                <label>Upload a Image</label>
+                <div class="input-group">
+                    <span class="input-group-btn">
+                        <span class="btn btn-default btn-file">
+                            <input type="file" id="pimage" name="pimage">
+                        </span>
+                    </span>
+                    <!-- <input type="text" class="form-control" readonly> -->
+                    <button type="submit" class="searchButton" id="sub3" name="sub3">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                <img id='img-upload'/>
+                
+            </div>
+        </div>
+        </div>
+           
       </form>
-       
     </div>
- </div>
+
+     <script>
+  $(".nav-item").on("click", function(e){
+  
+
+  $("div.divs").each(function(i,ele) {
+  ele.style.display = "none";
+});
+ele1 = $(this).find('a:first').attr('href')
+console.log(ele1)
+  $(ele1)[0].style.display = "block";
+  
+  $("li.nav-item").removeClass("active");
+  $(this).addClass("active");
+});</script>
+        
+</body>
+</html>

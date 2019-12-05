@@ -1,0 +1,53 @@
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/ce19237d22.js" crossorigin="anonymous"></script>
+
+        <style>
+        mark {
+  background: yellow;
+
+}</style>
+<script>
+        function goBack() {
+          window.history.back();
+        }
+        </script>
+       
+</head>
+
+
+<body>
+        <button onclick="goBack()">Back to HOMEPAGE</button>
+    <p style="font-size:2em;"><strong>Caption : {{name['Que']}}</strong></p>
+
+        {% for item in name %}
+        
+        <div>
+    
+        <img src="{{name[item]['imageURL']}}" style="width: 50%;
+        height: 50%;">
+        </div>
+        
+        <p class="desc">{{name[item]['actual']}}</p>
+      
+        <p>TF-IDF:{{name[item]['tfidf']}}</p>
+      
+<br>
+<br>
+
+    {% endfor %}
+  
+
+    <script>
+
+            window.onload = function() {
+                val = document.getElementsByClassName("desc")
+                for (var i=0;i < val.length; i++) {
+                    document.getElementsByClassName("desc")[i].innerHTML = $.parseHTML(document.getElementsByClassName("desc")[i].innerHTML)[0].data;
+}
+            }
+              
+            </script>
+</body>

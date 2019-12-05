@@ -1,0 +1,120 @@
+<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <script src="https://kit.fontawesome.com/ce19237d22.js" crossorigin="anonymous"></script>
+
+        <style>
+            .skillBox {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 20px 0;
+}
+
+.skillBox p {
+    margin: 3px 0 10px;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    color: #777777;
+    font-size: 12px;
+}
+
+.skillBox p:nth-child(2) {
+    float: right;
+    position: relative;
+}
+
+.skill {
+    background: #f1f1f1;
+    box-sizing: border-box;
+    border-radius: 2px;
+    width: 60%;
+}
+
+.skill_level {
+    background: #0fffb7;
+    width: 100%;
+    height: 20px;
+}
+
+.skill_level i {
+    float: left;
+    color: white;
+    /* font-size: 15px; */
+    padding: 2px;
+}
+
+.percentage {
+    top: -20px;
+    color: #777777;
+    font-family: 'Roboto', sans-serif;
+}
+
+.mainbox {
+    width: 80%;
+    position: relative;
+    margin-left: 10px;
+}
+
+        mark {
+  background: yellow;
+
+}</style>
+<script>
+        function goBack() {
+          window.history.back();
+        }
+        </script>
+       
+</head>
+
+
+<body>
+        <button onclick="goBack()">Back to HOMEPAGE</button>
+        {% for item in name %}
+        <div class="skillBox">
+
+                <div class="skill">
+                    <div class="skill_level" style="width:{{name[item]['genrePercent']}}%; background-color: #65AC68">
+                       
+                        <p style="float: left;
+                        left: 5px;">{{item}}</p>
+                    </div>
+                    <p class="percentage">{{name[item]['genrePercent']}}%</p>
+                </div>
+        </div>
+        {% endfor %}
+
+        {% for item in name %}
+        
+        
+        <p>{{item}}</p>
+        <p>{{name[item]['genrePercent']}}</p>
+        <p>Final Prob: {{name[item]['genreProb']}}</p>
+        <table class="table">
+            <tr>
+                    
+                    <th scope="col">Query term</th>
+                    <th scope="col">tf</th>
+                    <th scope="col">total words</th>
+                    <th scope="col">log(term/genre)</th>
+            </tr>
+            
+        {% for val in name[item]['Query'] %}
+        <tr>
+                <th scope="row">{{val}}</th>
+          
+            <td>{{name[item]['Query'][val][0]}}</td>  
+            <td>{{name[item]['Query'][val][1]}}</td>  
+            <td>{{name[item]['Query'][val][2]}}</td>    
+        </tr>
+   
+    {% endfor %}
+    
+</table>
+
+
+<br>
+<br>
+    {% endfor %}
+</body>
