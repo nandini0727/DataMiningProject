@@ -52,8 +52,12 @@ Prerequisites:
 2.	Install Redis(https://redis.io/topics/quickstart) and run.
 
 Running the Project:
-3.	Clone the project
+1. Clone the project
 cd to a folder and do:
 git clone https://github.com/nandini0727/DataMiningProject.git
-4.	cd DataMiningProject
-5.	
+cd DataMiningProject
+2. Run the DockerFile:
+docker build -t <Image Name>:<Tag>
+3. Push the Docker Image.
+
+
