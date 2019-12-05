@@ -21,9 +21,9 @@ sys.stdout = open('output.txt', 'w')
 stops = stopwords.words('english')
 stemmer = PorterStemmer()
 snow = nltk.stem.SnowballStemmer('english')
-df = pandas.read_csv('book_data.csv')
+df = pandas.read_csv('CSV3.csv')
 
-df['book_desc'].dropna(inplace=True)
+df['actual_caption'].dropna(inplace=True)
 tokenizer = RegexpTokenizer(r'[a-zA-Z]+')
 
 j = 0
@@ -34,11 +34,11 @@ docObj = collections.defaultdict(dict)
 
 for i in range(len(df)):
     objRow = {}
-    docmainID = "doc" + str(df.id[i])
+    docmainID = "document" + str(df.ID[i])
     try:
-        objRow['title'] = df.book_title[i]
-        objRow['description'] = df.book_desc[i]
-        objRow['url'] = df.image_url[i]
+        objRow['imageURL'] = df.URL[i]
+        objRow['actual'] = df.actual_caption[i]
+        objRow['collab'] = df.google_colab_caption[i]
 
 
         docObj[docmainID] = objRow
@@ -47,10 +47,10 @@ for i in range(len(df)):
    
 
     try:
-        tokens = tokenizer.tokenize(df.book_desc[i])
-        # tokens1 = tokenizer.tokenize(df.book_title[i])
-        # for tok in tokens1:
-        #     tokens.append(tok)
+        tokens = tokenizer.tokenize(df.actual_caption[i])
+        tokens1 = tokenizer.tokenize(df.google_colab_caption[i])
+        for tok in tokens1:
+            tokens.append(tok)
         
         tokens_new = []
         pos = 0
@@ -60,38 +60,35 @@ for i in range(len(df)):
             if word not in stops:
                 #word = stemmer.stem(word)
                 word = snow.stem(word)
+                word = word + "IMAGE"
                 tokens_new.append(word)
-                docID = "doc" + str(df.id[i])
+                docID = "document" + str(df.ID[i])
                 if word in inverted_index:
                     values = inverted_index.get(word)
                     if docID in values.keys():
                         value = inverted_index[word][docID]
-                        value[1].append(pos)
+                        #value[1].append(pos)
                         value[0] = value[0]+1
                         
                         #inverted_index[word][docID]
                     else:
 
-                        inverted_index[word][docID] = [1,[pos]]
+                        #inverted_index[word][docID] = [1,[pos]]
+                        inverted_index[word][docID] = [1]
 
                 else:
                     doc_index = {}
-                    doc_index[docID] = [1,[pos]]
+                    #doc_index[docID] = [1,[pos]]
+                    doc_index[docID] = [1]
                     inverted_index[word] = doc_index
-                pos = pos+1
+                #pos = pos+1
 
         documents[docID] = tokens_new
 
     except:
         continue
 
-#print(inverted_index)
-#print(documents)
 
-
-
-# # for key in inverted_index:
-# #     redis_connection.hmset(key, inverted_index[key])
 
 tfidfvec = collections.defaultdict(dict)
 
@@ -108,24 +105,18 @@ for document in documents:
 
         tf = inverted_index[term][docID][0]/documentLength
 
-        # tfidfList = [tf,idf,tf*idf]
-
         if term in tfidfvec:
             value = tfidfvec.get(term)
             
            
-            # if docID in value.keys():
-            #     tfidfvec[term][docID][0] = tf*idf
-            # else:
             if docID not in value.keys():
-                #docVector = {}
                 val = []
                 val.append(tf*idf)
-                positionList = inverted_index[term][docID][1]
-                val.append(positionList)
                 val.append(tf)
-                #val.append(idf)
-                #docvector[docID] = val
+                # positionList = inverted_index[term][docID][1]
+                # val.append(positionList)
+                # #val.append(idf)
+                # #docvector[docID] = val
                 tfidfvec[term][docID] = val
                 tfidfvec[term]["IDF"] = idf
 
@@ -135,13 +126,13 @@ for document in documents:
             val = []
            # val = docvector.get(docID)
             val.append(tf*idf)
-            #docvector[docID] = [tf*idf,[]]
-            position = inverted_index[term][docID][1]
-            val.append(position)
             val.append(tf)
+            #docvector[docID] = [tf*idf,[]]
+            # position = inverted_index[term][docID][1]
+            # val.append(position)
+            #val.append(idf)
             docvector[docID] = val
             docvector["IDF"] = idf
-          
             
 
             tfidfvec[term] = docvector
